@@ -1,0 +1,16 @@
+<h3>Send it with the following contents.</h3>
+
+<%= form_with(model: @post, url: posts_path, local: true) do |form| %>
+  <%= form.hidden_field :image_cache %>
+  <%= form.hidden_field :content %>
+
+  <p>Image:<%= image_tag @post.image.url %></p>
+  <p>Contets:<%= @post.content %></p>
+  <%= form.submit  "submit" %>
+<% end %>
+
+<%= form_with(model: @post, url: new_post_path, local: true, method: 'get') do |form| %>
+  <%= form.hidden_field :image_cache %>
+  <%= form.hidden_field :content %>
+  <%= form.submit "back" %>
+<% end %>

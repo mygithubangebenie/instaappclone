@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   resources :profiles
   root 'sessions#new'
-  resources :posts
+  #resources :posts
+  resources :posts do
+    collection do
+      post :confirm
+    end
+  end
   resources :users
   resources :sessions
   resources :favorites, only: [:create, :index, :destroy]

@@ -11,7 +11,12 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    #@post = Post.new
+    if params[:back]
+      @post = Post.new(post_params)
+    else
+      @post = Post.new
+    end
   end
 
   def edit
@@ -19,7 +24,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
+    @post.user_id = current_user.id
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -29,6 +34,12 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    render :new if @post.invalid?
   end
 
   def update
@@ -57,7 +68,7 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:image, :content, :user_id)
+      params.require(:post).permit(:image, :content, :user_id, :image_cache)
     end
  
 end
